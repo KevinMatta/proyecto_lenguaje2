@@ -1,200 +1,355 @@
 #include <iostream>
 #include <string>
 #include <ctime>
-#include <cmath>
+#include <cstdlib>
+#include <iomanip>
 using namespace std;
+
+const int fila = 6, columna = 8;
+empleado employees[fila][columna];
+int arr[2];
 
 class empleado
 {
 private:
-  string name;
+  int id;
   string cargo;
   float salario;
-  int horas_extras;
+  float bono;
 
 public:
-  empleado(string _name, string _cargo, float _salario, int _horas_extras)
+  empleado(int _id, string _cargo, float _salario, int _bono)
   {
-    name = _name;
+    id = _id;
     cargo = _cargo;
     salario = _salario;
-    horas_extras = _horas_extras;
+    bono = _bono;
   }
-  // void setSalario(float _salario)
-  // {
-  //   salario = _salario;
-  // }
-  // void setAumento(string aumento)
-  // {
-  //   float nuevoSalario = getSalario();
-  //   nuevoSalario = nuevoSalario + aumento;
-  //   setSalario(nuevoSalario);
-  // }
-  string getName() { return name; }
+  void setSalario(float _salario)
+  {
+    salario = _salario;
+  }
+  void setAumento(float aumento)
+  {
+    float nuevoSalario = getSalario();
+    nuevoSalario = nuevoSalario + aumento;
+    setSalario(nuevoSalario);
+  }
+  void setBono(float _bono)
+  {
+    bono = _bono;
+  }
+  int getId() { return id; }
   string getCargo() { return cargo; }
   float getSalario() { return salario; }
-  int getHoras_extras() { return horas_extras; }
   float getQuincena() { return salario / 2; }
-  float valorHoras_extras() { return ((horas_extras / 15) / 8) * horas_extras; }
-  float totalBruto() { return getQuincena() + valorHoras_extras(); }
+  float getBono() { return bono; }
+  float getRAP() { return (getSalario() * 1.5) / 100; }
+  float getIHSS() { return (getSalario() * 4) / 100; }
+  float getISR() { return (getSalario() * 1.32) / 100; }
+  float getIV()
+  {
+    if (getSalario() == 30000)
+      return 30 * 3;
+    if (getSalario() == 14000)
+      return 14 * 3;
+    if (getSalario() == 13050.68)
+      return 13 * 3;
+    if (getSalario() == 11419.35)
+      return 11 * 3;
+    if (getSalario() == 10875.57)
+    {
+      return 10 * 3;
+    }
+  }
+  float getCooperativa() { return getSalario(); }
 };
 
 void menuPrincpipal();
-void printPlanilla();
-void printDeducciones();
+void menuPlanilla();
+void menuDeducciones();
 void hacerAumentos();
-void printSalarios();
-void bono();
+void menuSalarios();
+void hacerBono();
+bool findEmp(int id);
 
 int main()
 {
-  // proyecto de lenguaje de programacion 2
-  // asdasdasd
 
   return 0;
 }
 
 void menuPrincpipal()
 {
+  bool state = true;
   int opcion;
-  cout << "Menu Principal\n";
-  cout << "1. ver planilla / 2. ver deducciones por empleados / 3. realizar aumento / 4. ver salario sin deducciones / 5. bonos a empleados / 6. limpiar / 7. salir\n";
-  cout << "Ingrese el numero de la opcion: ";
-  cin >> opcion;
-
-  switch (opcion)
+  do
   {
-  case 1:
-    printPlanilla();
-    break;
-  case 2:
-    printDeducciones();
-    break;
-  case 3:
-    hacerAumentos();
-    break;
-  case 4:
-    printSalarios();
-    break;
-  case 5:
-    bono();
-    break;
-  case 6:
-    system("cls");
-    break;
-  case 7:
-    break;
-  default:
-    menuPrincpipal();
-  }
+    cout << "MENU PRINCIPAL\n";
+    cout << "1. ver planilla / 2. ver deducciones  / 3. realizar aumento / 4. ver salario sin deducciones / 5. bonos aleatorios / 6. limpiar pantalla / 7. salir\n";
+    cout << "Ingrese el numero de la opcion: ";
+    cin >> opcion;
+
+    switch (opcion)
+    {
+    case 1:
+      menuPlanilla();
+      break;
+    case 2:
+      menuDeducciones();
+      break;
+    case 3:
+      hacerAumentos();
+      break;
+    case 4:
+      menuSalarios();
+      break;
+    case 5:
+      hacerBono();
+      break;
+    case 6:
+      system("cls");
+      break;
+    case 7:
+      state = false;
+      break;
+    default:
+      cout << "Ingres una opcion valida\n";
+    }
+  } while (state);
 }
 
-void printPlanilla()
+void menuPlanilla()
 {
+  bool state = true;
   int opcion;
-  cout << "1. mostrar planilla individual / 2. mostrar planilla general / 3. regresar al menu principal / 4. limpiar pantalla y salir\n";
-  cin >> opcion;
-  switch (opcion)
+  do
   {
-  case 1: // busca al empleado y muestra planilla
-    break;
-  case 2: // mostrar planilla general
-    break;
-  case 3:
-    menuPrincpipal();
-    break;
-  case 4:
-    system("cls");
-    break;
-  default:
-    printPlanilla();
-  }
+    cout << "MENU DE PLANILLAS\n";
+    cout << "1. mostrar planilla individual / 2. mostrar planilla general / 3. limpiar pantalla / 4. regresar al menu principal\n";
+    cin >> opcion;
+    switch (opcion)
+    {
+    case 1: // busca al empleado y muestra planilla
+      break;
+    case 2: // mostrar planilla general
+      break;
+    case 3:
+      system("cls");
+      break;
+    case 4:
+      state = false;
+      break;
+    default:
+      cout << "Ingres una opcion valida\n";
+    }
+  } while (state);
 }
 
-void printDeducciones()
+void menuDeducciones()
 {
+  bool state = true;
   int opcion;
-  cout << "1. mostrar deducciones individuales / 2. mostrar deducciones generales / 3. regresar al menu principal / 4. limpiar pantalla y salir\n";
-  cin >> opcion;
-  switch (opcion)
+  do
   {
-  case 1: // busca al empleado y muestra deducciones
-    break;
-  case 2: // mostrar deducciones de todos los empleados
-    break;
-  case 3:
-    menuPrincpipal();
-    break;
-  case 4:
-    system("cls");
-    break;
-  default:
-    printDeducciones();
-  }
+    cout << "1. mostrar deducciones individuales / 2. mostrar deducciones generales / 3. limpiar pantalla / 4. volver al menu principal\n";
+    cin >> opcion;
+    switch (opcion)
+    {
+    case 1:
+      int id;
+      cout << "ingrese el id del empleado: ";
+      cin >> id;
+
+      if (findEmp(id))
+      {
+        cout << setw(8) << left << "ID"
+             << setw(20) << left << "CARGO"
+             << setw(18) << left << "SALARIO"
+             << setw(16) << left << "RAP"
+             << setw(16) << left << "IHSS"
+             << setw(16) << left << "ISR"
+             << setw(16) << left << "IMP VECINAL"
+             << "COOPERATIVA"
+             << endl;
+        cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
+        cout << setw(8) << left << employees[arr[0]][arr[1]].getId()
+             << setw(20) << left << employees[arr[0]][arr[1]].getCargo()
+             << setw(20) << left << employees[arr[0]][arr[1]].getSalario()
+             << setw(20) << left << employees[arr[0]][arr[1]].getRAP()
+             << setw(20) << left << employees[arr[0]][arr[1]].getIHSS()
+             << setw(20) << left << employees[arr[0]][arr[1]].getISR()
+             << setw(20) << left << employees[arr[0]][arr[1]].getIV()
+             << setw(20) << left << employees[arr[0]][arr[1]].getCooperativa()
+             << endl;
+      }
+      else
+      {
+        cout << "empleado no encontrado\n";
+      }
+      break;
+    case 2:
+      cout << setw(8) << left << "ID"
+           << setw(20) << left << "CARGO"
+           << setw(18) << left << "SALARIO"
+           << setw(16) << left << "RAP"
+           << setw(16) << left << "IHSS"
+           << setw(16) << left << "ISR"
+           << setw(16) << left << "IMP VECINAL"
+           << "COOPERATIVA"
+           << endl;
+      cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
+      for (int i = 0; i < fila; i++)
+      {
+        for (int j = 0; j < 1; j++)
+        {
+          cout << setw(8) << left << employees[i][j].getId()
+               << setw(20) << left << employees[i][j].getCargo()
+               << setw(20) << left << employees[i][j].getSalario()
+               << setw(20) << left << employees[i][j].getRAP()
+               << setw(20) << left << employees[i][j].getIHSS()
+               << setw(20) << left << employees[i][j].getISR()
+               << setw(20) << left << employees[i][j].getIV()
+               << setw(20) << left << employees[i][j].getCooperativa()
+               << endl;
+        }
+      }
+      break;
+    case 3:
+      system("cls");
+      break;
+    case 4:
+      state = false;
+      break;
+    default:
+      cout << "Ingres una opcion valida\n";
+    }
+  } while (state);
 }
 
 void hacerAumentos()
 {
-  // revisar logica!!
-  string opcion;
+  int id;
   float aumento;
-  int aux;
-  bool state = false;
-  cout << "ingrese el nombre del empleado o empleada: ";
-  cin >> opcion;
-  for (int i = 0; i < 40; i++)
+
+  cout << "ingrese el id del empleado: ";
+  cin >> id;
+
+  if (findEmp(id))
   {
-    if (opcion == obj[i].getName())
-    { // Error: objeto y metodo no declarados
-      state = true;
-      aux = 1;
-      i = 40;
-    }
-    else
-    {
-      state = false;
-    }
-    if (state)
-    {
-      cout << "ingrese la cantidad del aumento: ";
-      cin >> aumento;
-      obj[i].setAumento(aumento);
-      cout << "aumento realizado\n";
-      menuPrincpipal();
-    }
-    else
-    {
-      cout << "empleado no encontrado";
-      menuPrincpipal();
-    }
+    cout << "ingrese la cantidad del aumento: ";
+    cin >> aumento;
+    employees[arr[0]][arr[1]].setAumento(aumento);
+    cout << "aumento realizado\n";
+  }
+  else
+  {
+    cout << "empleado no encontrado\n";
   }
 }
 
-void printSalarios()
+void menuSalarios()
 {
+  bool state = true;
   int opcion;
-  cout << "1. mostrar salario individual / 2. mostrar salarios de empleados / 3. regresar al menu principal / 4. limpiar pantalla y salir\n";
-  cin >> opcion;
-  switch (opcion)
+  do
   {
-  case 1: // busca al empleado y muestra el salario
-    break;
-  case 2: // mostrar salarios de los empleados
-    break;
-  case 3:
-    menuPrincpipal();
-    break;
-  case 4:
-    system("cls");
-    break;
-  default:
-    printSalarios();
-  }
+    cout << "MENU SALARIOS\n";
+    cout << "1. mostrar salario individual / 2. mostrar salarios de empleados / 3. limpiar pantalla / 4. volver al menu principal\n";
+    cin >> opcion;
+    switch (opcion)
+    {
+    case 1:
+      int id;
+      cout << "ingrese el id del empleado: ";
+      cin >> id;
+
+      if (findEmp(id))
+      {
+        cout << setw(8) << left << "ID"
+             << setw(20) << left << "CARGO"
+             << setw(20) << left << "SALARIO"
+             << "QUINCENA" << endl;
+        cout << setw(8) << left << employees[arr[0]][arr[1]].getId()
+             << setw(20) << left << employees[arr[0]][arr[1]].getCargo()
+             << setw(20) << left << employees[arr[0]][arr[1]].getSalario()
+             << employees[arr[0]][arr[1]].getQuincena()
+             << endl;
+      }
+      else
+      {
+        cout << "empleado no encontrado\n";
+      }
+      break;
+    case 2:
+      cout << setw(8) << left << "ID"
+           << setw(20) << left << "CARGO"
+           << setw(20) << left << "SALARIO"
+           << "QUINCENA"
+           << endl;
+      for (int i = 0; i < fila; i++)
+      {
+        if (i < 2)
+        {
+          for (int j = 0; j < columna - 4; j++)
+          {
+            cout << setw(8) << left << employees[i][j].getId()
+                 << setw(20) << left << employees[i][j].getCargo()
+                 << setw(20) << left << employees[i][j].getSalario()
+                 << employees[i][j].getQuincena() << endl;
+          }
+        }
+        else
+        {
+          for (int j = 0; j < columna; j++)
+          {
+            cout << setw(8) << left << employees[i][j].getId()
+                 << setw(20) << left << employees[i][j].getCargo()
+                 << setw(20) << left << employees[i][j].getSalario()
+                 << employees[i][j].getQuincena() << endl;
+          }
+        }
+      }
+
+      break;
+    case 3:
+      system("cls");
+      break;
+    case 4:
+      state = false;
+      break;
+    default:
+      cout << "ingrese una opcion valida\n";
+    }
+  } while (state);
 }
 
-void bono()
+void hacerBono()
 {
   srand(time(NULL));
-  int aleatorio = rand() % 500 + 2000;
-  // se suma el bono al la quincena
+  float bono;
+  int rdm1, rdm2;
+  cout << "Ingrese la cantidad del bono: ";
+  cin >> bono;
+  rdm1 = (rand() % 4) + 2;
+  rdm2 = rand() % 8;
+  employees[rdm1][rdm2].setBono(bono);
+  cout << "\nel empleado no. " << employees[rdm1][rdm2].getId() << " es el ganador del bono\n";
+  cout << "Su quincena actual es de " << employees[rdm1][rdm2].getQuincena() + employees[rdm1][rdm2].getBono() << " Lempiras\n";
+}
+
+bool findEmp(int id)
+{
+  bool state = false;
+  arr[0] = 0, arr[1] = 0;
+  for (int i = 0; i < fila; i++)
+  {
+    for (int j = 0; j < columna; j++)
+      if (id == employees[i][j].getId)
+      {
+        arr[0] = i, arr[1] = j;
+        state = true;
+      }
+  }
+  return state;
 }
