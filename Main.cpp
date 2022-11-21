@@ -97,10 +97,6 @@ int main()
 
   menuPrincpipal();
 
-  // MOSTRAR
-  // for (int i = 0; i < fila; i++)
-  //   for (int j = 0; j < columna; j++)
-  //     cout << employees[i][j].getId() << " " << employees[i][j].getCargo() << endl;
   return 0;
 }
 
@@ -165,10 +161,9 @@ void menuPlanilla()
       int id;
       cout << "ingrese el id del empleado: ";
       cin >> id;
-      if (findEmp(id) || validId(id))
-      {
+      if (findEmp(id) || validId(id)) // si el empleado existe y si el id es valido
+      {                               // titulos
         cout << "-------------------------------------------------------------------------------------------------------" << endl;
-
         cout << setw(8) << left << "ID"
              << setw(20) << left << "CARGO"
              << setw(18) << left << "SALARIO"
@@ -178,7 +173,7 @@ void menuPlanilla()
              << setw(16) << left << "TOTAL"
              << endl;
         cout << "-------------------------------------------------------------------------------------------------------" << endl;
-
+        // valores de un empleado
         cout << setw(8) << left << employees[arr[0]][arr[1]].getId()
              << setw(20) << left << employees[arr[0]][arr[1]].getCargo()
              << setw(18) << left << employees[arr[0]][arr[1]].getSalario()
@@ -195,7 +190,7 @@ void menuPlanilla()
         cout << "empleado no encontrado\n";
       }
       break;
-    case 2:
+    case 2: // titulos
       cout << "-------------------------------------------------------------------------------------------------------" << endl;
       cout << setw(8) << left << "ID"
            << setw(20) << left << "CARGO"
@@ -206,7 +201,7 @@ void menuPlanilla()
            << setw(16) << left << "TOTAL"
            << endl;
       cout << "-------------------------------------------------------------------------------------------------------" << endl;
-      for (int i = 0; i < fila; i++)
+      for (int i = 0; i < fila; i++) // valores de todos los empleados
       {
         for (int j = 0; j < columna; j++)
         {
@@ -251,8 +246,8 @@ void menuDeducciones()
       cout << "ingrese el id del empleado: ";
       cin >> id;
 
-      if (findEmp(id) || validId(id))
-      {
+      if (findEmp(id) || validId(id)) // si el empleado existe y si el id es valido
+      {                               // titulos
         cout << endl;
         cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
         cout << setw(8) << left << "ID"
@@ -265,6 +260,7 @@ void menuDeducciones()
              << "COOPERATIVA"
              << endl;
         cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
+        // valores de un empleado
         cout << setw(8) << left << employees[arr[0]][arr[1]].getId()
              << setw(20) << left << employees[arr[0]][arr[1]].getCargo()
              << setw(18) << left << employees[arr[0]][arr[1]].getSalario()
@@ -284,7 +280,7 @@ void menuDeducciones()
       }
       break;
     case 2:
-      cout << endl;
+      cout << endl; // titulos
       cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
       cout << setw(8) << left << "ID"
            << setw(20) << left << "CARGO"
@@ -296,7 +292,7 @@ void menuDeducciones()
            << "COOPERATIVA"
            << endl;
       cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
-      for (int i = 0; i < fila; i++)
+      for (int i = 0; i < fila; i++) // valores de todos los empleados
       {
         for (int j = 0; j < columna; j++)
         {
@@ -334,11 +330,11 @@ void hacerAumentos()
   cin >> id;
 
   if (findEmp(id) || validId(id))
-  {
+  { // si el empleado existe y el id es valido
     cout << "ingrese la cantidad del aumento: ";
     cin >> aumento;
     while (cin.fail() || aumento < 0)
-    {
+    { // valida un numero positivo
 
       cout << "\nIngrese un valor valido\n";
       cin.clear();
@@ -375,7 +371,7 @@ void menuSalarios()
       int id;
       cout << "ingrese el id del empleado: ";
       cin >> id;
-      if (findEmp(id) || validId(id))
+      if (findEmp(id) || validId(id)) // si el empleado existe y wl id es valido
       {
         cout << endl;
         cout << "---------------------------------------------------------" << endl;
@@ -392,13 +388,14 @@ void menuSalarios()
         cout << endl;
         system("pause>nul");
       }
-      else
+      else // si el empleado no existe
       {
         cout << "empleado no encontrado\n";
         system("pause>nul");
       }
       break;
     case 2:
+      // titulos:
       cout << endl;
       cout << "---------------------------------------------------------" << endl;
       cout << setw(8) << left << "ID"
@@ -407,7 +404,7 @@ void menuSalarios()
            << "QUINCENA"
            << endl;
       cout << "---------------------------------------------------------" << endl;
-
+      // imprime valores de gerentes
       for (int i = 0; i < 4; i++)
       {
         cout << setw(8) << left << employees[0][i].getId()
@@ -416,7 +413,7 @@ void menuSalarios()
              << employees[0][i].getQuincena() << endl;
         cout << "---------------------------------------------------------" << endl;
       }
-
+      // imprime valores de supervisores
       for (int i = 4; i <= 8; i++)
       {
         cout << setw(8) << left << employees[0][i].getId()
@@ -425,7 +422,7 @@ void menuSalarios()
              << employees[0][i].getQuincena() << endl;
         cout << "---------------------------------------------------------" << endl;
       }
-
+      // imprime los valores de los demas cargos
       for (int i = 1; i < fila; i++)
         for (int j = 0; j < columna; j++)
         {
@@ -455,13 +452,14 @@ void hacerBono()
   cout << "Ingrese la cantidad del bono: ";
   cin >> bono;
   while (cin.fail() || bono < 0)
-  {
+  { // valida si es entero o caracter
     cout << "\nIngrese un valor valido\n";
     cin.clear();
     cin.ignore(256, '\n');
     cout << "Ingrese la cantidad del bono: ";
     cin >> bono;
   }
+  // se guarda la ubicacion aleatoria
   rdm1 = (rand() % 4) + 1;
   rdm2 = rand() % 8;
   employees[rdm1][rdm2].setBono(bono);
@@ -471,7 +469,7 @@ void hacerBono()
 }
 
 bool findEmp(int id)
-{
+{ // busca si el empleado existe
   bool state = false;
   arr[0] = 0, arr[1] = 0;
   for (int i = 0; i < fila; i++)
@@ -485,7 +483,7 @@ bool findEmp(int id)
 }
 
 bool validId(int id)
-{
+{ // valida si es entero o caracter
   if (cin.fail())
   {
     cin.clear();
@@ -501,7 +499,7 @@ bool validId(int id)
 }
 
 int validOp(int opcion)
-{
+{ // valida si es un entero o caracter
   if (cin.fail())
   {
     cin.clear();
