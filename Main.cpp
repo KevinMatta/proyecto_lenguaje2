@@ -45,16 +45,17 @@ public:
   float getQuincenaDeducida() { return getSalarioDeducido() / 2; }
   float getIV()
   {
-    if (getSalario() == 30000)
-      return 30 * 3;
-    if (getSalario() == 14000)
-      return 14 * 3;
-    if (getSalario() > 13000.0 && getSalario() < 13999.9)
-      return 13 * 3;
-    if (getSalario() > 11000.0 && getSalario() < 11999.9)
-      return 11 * 3;
-    if (getSalario() > 10000.0 && getSalario() < 10999.9)
-      return 10 * 3;
+    if (getSalario() >= 5000 && getSalario() < 10000)
+      return (int(getSalario()) % 10000 / 1000) * 2;
+
+    if (getSalario() >= 10000 && getSalario() <= 20000)
+      return (int(getSalario()) % 100000 / 1000) * 2.5;
+
+    if (getSalario() > 20000 && getSalario() <= 30000)
+      return (int(getSalario()) % 100000 / 1000) * 3;
+
+    if (getSalario() > 30000 && getSalario() <= 50000)
+      return (int(getSalario()) % 100000 / 1000) * 3.5;
   }
 };
 
@@ -94,9 +95,6 @@ int main()
     }
   }
 
-  // menuDeducciones();
-  // menuSalarios();
-  // menuPlanilla();
   menuPrincpipal();
 
   // MOSTRAR
