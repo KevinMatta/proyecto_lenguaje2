@@ -9,21 +9,24 @@ class empleado
 {
 private:
   int id;
+  string nombre;
   string cargo;
   float salario;
   float bono;
 
 public:
-  empleado(int _id = 0, string _cargo = "", float _salario = 0.0, float _bono = 0.0)
+  empleado(int _id = 0, string _nombre = "", string _cargo = "", float _salario = 0.0, float _bono = 0.0)
   {
     id = _id;
+    nombre = _nombre;
     cargo = _cargo;
     salario = _salario;
     bono = _bono;
   }
-  void setEmpleado(int _id = 0, string _cargo = "", float _salario = 0.0, float _bono = 0.0)
+  void setEmpleado(int _id = 0, string _nombre = "", string _cargo = "", float _salario = 0.0, float _bono = 0.0)
   {
     id = _id;
+    nombre = _nombre;
     cargo = _cargo;
     salario = _salario;
     bono = _bono;
@@ -32,6 +35,7 @@ public:
   void setBono(float _bono) { bono = _bono; }
   void setAumento(float aumento) { setSalario(getSalario() + aumento); }
   int getId() { return id; }
+  string getNombre() { return nombre; }
   string getCargo() { return cargo; }
   float getSalario() { return salario; }
   float getQuincena() { return salario / 2; }
@@ -56,6 +60,9 @@ public:
 
     if (getSalario() > 30000 && getSalario() <= 50000)
       return (int(getSalario()) % 100000 / 1000) * 3.5;
+
+    if (getSalario() > 50000 && getSalario() <= 75000)
+      return (int(getSalario()) % 100000 / 1000) * 4;
   }
 };
 
@@ -69,20 +76,34 @@ bool findEmp(int id);
 bool validId(int id);
 int validOp(int opcion);
 
+string names[40];
 int arr[2];
 const int fila = 5, columna = 8;
 empleado employees[fila][columna];
 
 int main()
 {
+  srand(time(NULL));
+  int n = 0;
   const string rol[5] = {"Supervisor", "Operario", "Vendedor", "Mantenimiento", "aseo"};
   const float salary[5] = {14000, 13050.68, 11419.35, 10875.57, 10875.57};
-  // GERETNES FILA 0
+  string names[40] = {
+      "Hugo", "Martin", "Lucas", "Mateo", "Leo", "Daniel", "Alejandro", "Pablo", "Manuel", "Alvaro",
+      "Adrian", "David", "Mario", "Enzo", "Diego", "Marcos", "Izan", "Javier", "Marco", "Alex",
+      "Bruno", "Oliver", "Miguel", "Thiago", "Antonio", "Marc", "Carlos", "angel", "Juan", "Gonzalo",
+      "Gael", "Sergio", "Nicolas", "Dylan", "Gabriel", "Jorge", "Jose", "Adam", "Liam", "Eric"};
+  // GERENTES FILA 0
   for (int i = 0; i < columna - 4; i++)
-    employees[0][i].setEmpleado(i + 1, "Gerente", 30000.00, 0.0);
+  {
+    employees[0][i].setEmpleado(i + 1, names[n], "Gerente", float((rand() % 50000) + 30000), 0.0);
+    n++;
+  }
   // SUPERVISORES FILA 0
   for (int i = 4; i < columna; i++)
-    employees[0][i].setEmpleado(i + 1, rol[0], salary[0], 0.0);
+  {
+    employees[0][i].setEmpleado(i + 1, names[n], rol[0], float((rand() % 25000) + salary[0]), 0.0);
+    n++;
+  }
 
   // INDEX 9 - 40 / FILA 1 - 4
   for (int i = 1; i < fila; i++)
@@ -90,8 +111,9 @@ int main()
     for (int j = 0; j < columna; j++)
     {
       static int index = 9;
-      employees[i][j].setEmpleado(index, rol[i], salary[i], 0.0);
+      employees[i][j].setEmpleado(index, names[n], rol[i], salary[i], 0.0);
       index++;
+      n++;
     }
   }
 
@@ -163,8 +185,9 @@ void menuPlanilla()
       cin >> id;
       if (findEmp(id) || validId(id)) // si el empleado existe y si el id es valido
       {                               // titulos
-        cout << "-------------------------------------------------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
         cout << setw(8) << left << "ID"
+             << setw(18) << left << "NOMBRE"
              << setw(20) << left << "CARGO"
              << setw(18) << left << "SALARIO"
              << setw(16) << left << "QUINCENA"
@@ -172,17 +195,18 @@ void menuPlanilla()
              << setw(16) << left << "BONO"
              << setw(16) << left << "TOTAL"
              << endl;
-        cout << "-------------------------------------------------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
         // valores de un empleado
         cout << setw(8) << left << employees[arr[0]][arr[1]].getId()
+             << setw(18) << left << employees[arr[0]][arr[1]].getNombre()
              << setw(20) << left << employees[arr[0]][arr[1]].getCargo()
-             << setw(18) << left << employees[arr[0]][arr[1]].getSalario()
-             << setw(16) << left << employees[arr[0]][arr[1]].getQuincena()
-             << setw(18) << left << employees[arr[0]][arr[1]].getDeducciones()
-             << setw(16) << left << employees[arr[0]][arr[1]].getBono()
-             << setw(16) << left << employees[arr[0]][arr[1]].getQuincenaDeducida() + employees[arr[0]][arr[1]].getBono()
+             << setw(18) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getSalario()
+             << setw(16) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getQuincena()
+             << setw(18) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getDeducciones()
+             << setw(16) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getBono()
+             << setw(16) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getQuincenaDeducida() + employees[arr[0]][arr[1]].getBono()
              << endl;
-        cout << "-------------------------------------------------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
         system("pause>nul");
       }
       else
@@ -191,8 +215,9 @@ void menuPlanilla()
       }
       break;
     case 2: // titulos
-      cout << "-------------------------------------------------------------------------------------------------------" << endl;
+      cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
       cout << setw(8) << left << "ID"
+           << setw(18) << left << "NOMBRE"
            << setw(20) << left << "CARGO"
            << setw(18) << left << "SALARIO"
            << setw(16) << left << "QUINCENA"
@@ -200,20 +225,21 @@ void menuPlanilla()
            << setw(16) << left << "BONO"
            << setw(16) << left << "TOTAL"
            << endl;
-      cout << "-------------------------------------------------------------------------------------------------------" << endl;
+      cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
       for (int i = 0; i < fila; i++) // valores de todos los empleados
       {
         for (int j = 0; j < columna; j++)
         {
           cout << setw(8) << left << employees[i][j].getId()
+               << setw(18) << left << employees[i][j].getNombre()
                << setw(20) << left << employees[i][j].getCargo()
-               << setw(18) << left << employees[i][j].getSalario()
-               << setw(16) << left << employees[i][j].getQuincena()
-               << setw(18) << left << employees[i][j].getDeducciones()
-               << setw(16) << left << employees[i][j].getBono()
-               << setw(16) << left << employees[i][j].getQuincenaDeducida() + employees[i][j].getBono()
+               << setw(18) << left << fixed << setprecision(2) << employees[i][j].getSalario()
+               << setw(16) << left << fixed << setprecision(2) << employees[i][j].getQuincena()
+               << setw(18) << left << fixed << setprecision(2) << employees[i][j].getDeducciones()
+               << setw(16) << left << fixed << setprecision(2) << employees[i][j].getBono()
+               << setw(16) << left << fixed << setprecision(2) << employees[i][j].getQuincenaDeducida() + employees[i][j].getBono()
                << endl;
-          cout << "-------------------------------------------------------------------------------------------------------" << endl;
+          cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
         }
       }
       system("pause>nul");
@@ -249,8 +275,9 @@ void menuDeducciones()
       if (findEmp(id) || validId(id)) // si el empleado existe y si el id es valido
       {                               // titulos
         cout << endl;
-        cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
         cout << setw(8) << left << "ID"
+             << setw(18) << left << "NOMBRE"
              << setw(20) << left << "CARGO"
              << setw(18) << left << "SALARIO"
              << setw(16) << left << "RAP"
@@ -259,18 +286,19 @@ void menuDeducciones()
              << setw(16) << left << "IV"
              << "COOPERATIVA"
              << endl;
-        cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
         // valores de un empleado
         cout << setw(8) << left << employees[arr[0]][arr[1]].getId()
+             << setw(18) << left << employees[arr[0]][arr[1]].getNombre()
              << setw(20) << left << employees[arr[0]][arr[1]].getCargo()
-             << setw(18) << left << employees[arr[0]][arr[1]].getSalario()
-             << setw(16) << left << employees[arr[0]][arr[1]].getRAP()
-             << setw(16) << left << employees[arr[0]][arr[1]].getIHSS()
-             << setw(16) << left << employees[arr[0]][arr[1]].getISR()
-             << setw(16) << left << employees[arr[0]][arr[1]].getIV()
-             << setw(16) << left << employees[arr[0]][arr[1]].getCooperativa()
+             << setw(18) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getSalario()
+             << setw(16) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getRAP()
+             << setw(16) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getIHSS()
+             << setw(16) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getISR()
+             << setw(16) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getIV()
+             << setw(16) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getCooperativa()
              << endl;
-        cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
+        cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
         system("pause>nul");
       }
       else
@@ -281,8 +309,9 @@ void menuDeducciones()
       break;
     case 2:
       cout << endl; // titulos
-      cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
+      cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
       cout << setw(8) << left << "ID"
+           << setw(18) << left << "NOMBRE"
            << setw(20) << left << "CARGO"
            << setw(18) << left << "SALARIO"
            << setw(16) << left << "RAP"
@@ -291,21 +320,22 @@ void menuDeducciones()
            << setw(16) << left << "IV"
            << "COOPERATIVA"
            << endl;
-      cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
+      cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
       for (int i = 0; i < fila; i++) // valores de todos los empleados
       {
         for (int j = 0; j < columna; j++)
         {
           cout << setw(8) << left << employees[i][j].getId()
+               << setw(18) << left << employees[i][j].getNombre()
                << setw(20) << left << employees[i][j].getCargo()
-               << setw(18) << left << employees[i][j].getSalario()
-               << setw(16) << left << employees[i][j].getRAP()
-               << setw(16) << left << employees[i][j].getIHSS()
-               << setw(16) << left << employees[i][j].getISR()
-               << setw(16) << left << employees[i][j].getIV()
-               << setw(16) << left << employees[i][j].getCooperativa()
+               << setw(18) << left << fixed << setprecision(2) << employees[i][j].getSalario()
+               << setw(16) << left << fixed << setprecision(2) << employees[i][j].getRAP()
+               << setw(16) << left << fixed << setprecision(2) << employees[i][j].getIHSS()
+               << setw(16) << left << fixed << setprecision(2) << employees[i][j].getISR()
+               << setw(16) << left << fixed << setprecision(2) << employees[i][j].getIV()
+               << setw(16) << left << fixed << setprecision(2) << employees[i][j].getCooperativa()
                << endl;
-          cout << "-------------------------------------------------------------------------------------------------------------------------------------" << endl;
+          cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
         }
       }
       system("pause>nul");
@@ -344,7 +374,7 @@ void hacerAumentos()
     }
 
     employees[arr[0]][arr[1]].setAumento(aumento);
-    cout << "salario actualizado: " << employees[arr[0]][arr[1]].getSalario() << endl;
+    cout << "\nel salario actual de " << employees[arr[0]][arr[1]].getNombre() << " es de: " << employees[arr[0]][arr[1]].getSalario() << endl;
     system("pause>nul");
   }
   else
@@ -374,17 +404,19 @@ void menuSalarios()
       if (findEmp(id) || validId(id)) // si el empleado existe y wl id es valido
       {
         cout << endl;
-        cout << "---------------------------------------------------------" << endl;
+        cout << "---------------------------------------------------------------------------" << endl;
         cout << setw(8) << left << "ID"
+             << setw(18) << left << "NOMBRE"
              << setw(20) << left << "CARGO"
              << setw(20) << left << "SALARIO"
              << "QUINCENA" << endl;
         cout << setw(8) << left << employees[arr[0]][arr[1]].getId()
+             << setw(18) << left << employees[arr[0]][arr[1]].getNombre()
              << setw(20) << left << employees[arr[0]][arr[1]].getCargo()
-             << setw(20) << left << employees[arr[0]][arr[1]].getSalario()
-             << employees[arr[0]][arr[1]].getQuincena()
+             << setw(20) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getSalario()
+             << fixed << setprecision(2) << employees[arr[0]][arr[1]].getQuincena()
              << endl;
-        cout << "---------------------------------------------------------" << endl;
+        cout << "---------------------------------------------------------------------------" << endl;
         cout << endl;
         system("pause>nul");
       }
@@ -397,40 +429,44 @@ void menuSalarios()
     case 2:
       // titulos:
       cout << endl;
-      cout << "---------------------------------------------------------" << endl;
+      cout << "---------------------------------------------------------------------------" << endl;
       cout << setw(8) << left << "ID"
+           << setw(18) << left << "NOMBRE"
            << setw(20) << left << "CARGO"
            << setw(20) << left << "SALARIO"
            << "QUINCENA"
            << endl;
-      cout << "---------------------------------------------------------" << endl;
+      cout << "---------------------------------------------------------------------------" << endl;
       // imprime valores de gerentes
       for (int i = 0; i < 4; i++)
       {
         cout << setw(8) << left << employees[0][i].getId()
+             << setw(18) << left << employees[0][i].getNombre()
              << setw(20) << left << employees[0][i].getCargo()
-             << setw(20) << left << employees[0][i].getSalario()
-             << employees[0][i].getQuincena() << endl;
-        cout << "---------------------------------------------------------" << endl;
+             << setw(20) << left << fixed << setprecision(2) << employees[0][i].getSalario()
+             << fixed << setprecision(2) << employees[0][i].getQuincena() << endl;
+        cout << "---------------------------------------------------------------------------" << endl;
       }
       // imprime valores de supervisores
       for (int i = 4; i <= 8; i++)
       {
         cout << setw(8) << left << employees[0][i].getId()
+             << setw(18) << left << employees[0][i].getNombre()
              << setw(20) << left << employees[0][i].getCargo()
-             << setw(20) << left << employees[0][i].getSalario()
-             << employees[0][i].getQuincena() << endl;
-        cout << "---------------------------------------------------------" << endl;
+             << setw(20) << left << fixed << setprecision(2) << employees[0][i].getSalario()
+             << fixed << setprecision(2) << employees[0][i].getQuincena() << endl;
+        cout << "---------------------------------------------------------------------------" << endl;
       }
       // imprime los valores de los demas cargos
       for (int i = 1; i < fila; i++)
         for (int j = 0; j < columna; j++)
         {
           cout << setw(8) << left << employees[i][j].getId()
+               << setw(18) << left << employees[i][j].getNombre()
                << setw(20) << left << employees[i][j].getCargo()
-               << setw(20) << left << employees[i][j].getSalario()
-               << employees[i][j].getQuincena() << endl;
-          cout << "---------------------------------------------------------" << endl;
+               << setw(20) << left << fixed << setprecision(2) << employees[i][j].getSalario()
+               << fixed << setprecision(2) << employees[i][j].getQuincena() << endl;
+          cout << "---------------------------------------------------------------------------" << endl;
         }
       system("pause>nul");
       break;
@@ -463,7 +499,7 @@ void hacerBono()
   rdm1 = (rand() % 4) + 1;
   rdm2 = rand() % 8;
   employees[rdm1][rdm2].setBono(bono);
-  cout << "\nel empleado no. " << employees[rdm1][rdm2].getId() << " es el ganador del bono\n";
+  cout << "\nel empleado no. " << employees[rdm1][rdm2].getId() << " " << employees[rdm1][rdm2].getNombre() << " es el ganador del bono\n";
   cout << "Su quincena actual es de " << fixed << setprecision(2) << employees[rdm1][rdm2].getQuincena() + employees[rdm1][rdm2].getBono() << " Lempiras sin deducciones\n";
   system("pause>nul");
 }
