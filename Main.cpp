@@ -76,15 +76,14 @@ bool findEmp(int id);
 bool validId(int id);
 int validOp(int opcion);
 
-string names[40];
 int arr[2];
 const int fila = 5, columna = 8;
 empleado employees[fila][columna];
 
 int main()
 {
-  srand(time(NULL));
   int n = 0;
+  srand(time(NULL));
   const string rol[5] = {"Supervisor", "Operario", "Vendedor", "Mantenimiento", "aseo"};
   const float salary[5] = {14000, 13050.68, 11419.35, 10875.57, 10875.57};
   string names[40] = {
@@ -119,6 +118,13 @@ int main()
 
   menuPrincpipal();
 
+  system("cls");
+  cout << "INTEGRANTES DEL GRUPO B" << endl;
+  cout << "Alma Larisa Amaya Escobar 20191800089" << endl;
+  cout << "Hamlett Antonio Gamez Perez 20202000740" << endl;
+  cout << "Kariely Yolibeth Lozano 20202001805" << endl;
+  cout << "Kevin Ely Membreno Mat 20212000901" << endl;
+  cout << "Raquel Solis" << endl;
   return 0;
 }
 
@@ -129,6 +135,7 @@ void menuPrincpipal()
   do
   {
     system("cls");
+    cout << "Centro de Emprendedores Programadores CEMP\n\n";
     cout << "MENU PRINCIPAL\n";
     cout << "1. ver planilla / 2. ver deducciones  / 3. realizar aumento / 4. ver salario sin deducciones / 5. bonos aleatorios / 6. salir\n";
     cout << "Ingrese el numero de la opcion: ";
@@ -173,6 +180,7 @@ void menuPlanilla()
   do
   {
     system("cls");
+    cout << "Centro de Emprendedores Programadores CEMP\n\n";
     cout << "MENU DE PLANILLAS\n";
     cout << "1. mostrar planilla individual / 2. mostrar planilla general / 3. regresar al menu principal\n";
     cout << "ingrese el numero de la opcion: ";
@@ -183,9 +191,11 @@ void menuPlanilla()
       int id;
       cout << "ingrese el id del empleado: ";
       cin >> id;
-      if (findEmp(id) || validId(id)) // si el empleado existe y si el id es valido
+      if (findEmp(id) && validId(id)) // si el empleado existe y si el id es valido
       {                               // titulos
-        cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
+        cout << endl;
+        cout << "Planilla de Centro de Emprendedores Programadores" << endl;
+        cout << "---------------------------------------------------------------------------------------------------------------------------" << endl;
         cout << setw(8) << left << "ID"
              << setw(18) << left << "NOMBRE"
              << setw(20) << left << "CARGO"
@@ -195,7 +205,7 @@ void menuPlanilla()
              << setw(16) << left << "BONO"
              << setw(16) << left << "TOTAL"
              << endl;
-        cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
+        cout << "---------------------------------------------------------------------------------------------------------------------------" << endl;
         // valores de un empleado
         cout << setw(8) << left << employees[arr[0]][arr[1]].getId()
              << setw(18) << left << employees[arr[0]][arr[1]].getNombre()
@@ -206,7 +216,7 @@ void menuPlanilla()
              << setw(16) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getBono()
              << setw(16) << left << fixed << setprecision(2) << employees[arr[0]][arr[1]].getQuincenaDeducida() + employees[arr[0]][arr[1]].getBono()
              << endl;
-        cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
+        cout << "---------------------------------------------------------------------------------------------------------------------------" << endl;
         system("pause>nul");
       }
       else
@@ -215,7 +225,9 @@ void menuPlanilla()
       }
       break;
     case 2: // titulos
-      cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
+      cout << endl;
+      cout << "Planilla de Centro de Emprendedores Programadores" << endl;
+      cout << "---------------------------------------------------------------------------------------------------------------------------" << endl;
       cout << setw(8) << left << "ID"
            << setw(18) << left << "NOMBRE"
            << setw(20) << left << "CARGO"
@@ -225,7 +237,7 @@ void menuPlanilla()
            << setw(16) << left << "BONO"
            << setw(16) << left << "TOTAL"
            << endl;
-      cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
+      cout << "---------------------------------------------------------------------------------------------------------------------------" << endl;
       for (int i = 0; i < fila; i++) // valores de todos los empleados
       {
         for (int j = 0; j < columna; j++)
@@ -239,7 +251,7 @@ void menuPlanilla()
                << setw(16) << left << fixed << setprecision(2) << employees[i][j].getBono()
                << setw(16) << left << fixed << setprecision(2) << employees[i][j].getQuincenaDeducida() + employees[i][j].getBono()
                << endl;
-          cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
+          cout << "---------------------------------------------------------------------------------------------------------------------------" << endl;
         }
       }
       system("pause>nul");
@@ -261,6 +273,7 @@ void menuDeducciones()
   do
   {
     system("cls");
+    cout << "Centro de Emprendedores Programadores CEMP\n\n";
     cout << "MENU DEDUCCIONES\n";
     cout << "1. mostrar deducciones individuales / 2. mostrar deducciones generales / 3. volver al menu principal\n";
     cout << "Ingrese el numero de la opcion: ";
@@ -272,9 +285,10 @@ void menuDeducciones()
       cout << "ingrese el id del empleado: ";
       cin >> id;
 
-      if (findEmp(id) || validId(id)) // si el empleado existe y si el id es valido
+      if (findEmp(id) && validId(id)) // si el empleado existe y si el id es valido
       {                               // titulos
         cout << endl;
+        cout << "Deducciones de Centro de Emprendedores Programadores" << endl;
         cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
         cout << setw(8) << left << "ID"
              << setw(18) << left << "NOMBRE"
@@ -303,12 +317,13 @@ void menuDeducciones()
       }
       else
       {
-        cout << "empleado no encontrado\n";
+        cout << "\nempleado no encontrado\n";
         system("pause>nul");
       }
       break;
     case 2:
       cout << endl; // titulos
+      cout << "Deducciones de Centro de Emprendedores Programadores" << endl;
       cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
       cout << setw(8) << left << "ID"
            << setw(18) << left << "NOMBRE"
@@ -353,13 +368,15 @@ void menuDeducciones()
 void hacerAumentos()
 {
 
+  system("cls");
+  cout << "REALIZAR UN AUMENTO" << endl;
   int id;
   float aumento;
 
   cout << "ingrese el id del empleado: ";
   cin >> id;
 
-  if (findEmp(id) || validId(id))
+  if (findEmp(id) && validId(id))
   { // si el empleado existe y el id es valido
     cout << "ingrese la cantidad del aumento: ";
     cin >> aumento;
@@ -391,6 +408,7 @@ void menuSalarios()
   do
   {
     system("cls");
+    cout << "Centro de Emprendedores Programadores CEMP\n\n";
     cout << "MENU SALARIOS\n";
     cout << "1. mostrar salario individual / 2. mostrar salarios de empleados / 3. volver al menu principal\n";
     cout << "Ingrese el numero de la opcion: ";
@@ -404,6 +422,7 @@ void menuSalarios()
       if (findEmp(id) || validId(id)) // si el empleado existe y wl id es valido
       {
         cout << endl;
+        cout << "Salarios de Centro de Emprendedores Programadores" << endl;
         cout << "---------------------------------------------------------------------------" << endl;
         cout << setw(8) << left << "ID"
              << setw(18) << left << "NOMBRE"
@@ -429,6 +448,7 @@ void menuSalarios()
     case 2:
       // titulos:
       cout << endl;
+      cout << "Salarios de Centro de Emprendedores Programadores" << endl;
       cout << "---------------------------------------------------------------------------" << endl;
       cout << setw(8) << left << "ID"
            << setw(18) << left << "NOMBRE"
@@ -482,6 +502,8 @@ void menuSalarios()
 
 void hacerBono()
 {
+  system("cls");
+  cout << "REALIZAR BONO ALEATORIO" << endl;
   srand(time(NULL));
   float bono;
   int rdm1, rdm2;
@@ -507,7 +529,11 @@ void hacerBono()
 bool findEmp(int id)
 { // busca si el empleado existe
   bool state = false;
+  bool *ptr = &state;
   arr[0] = 0, arr[1] = 0;
+  if (id < 0 || id > 40)
+    return state;
+
   for (int i = 0; i < fila; i++)
     for (int j = 0; j < columna; j++)
       if (id == employees[i][j].getId())
@@ -515,7 +541,7 @@ bool findEmp(int id)
         arr[0] = i, arr[1] = j;
         state = true;
       }
-  return state;
+  return *ptr;
 }
 
 bool validId(int id)
