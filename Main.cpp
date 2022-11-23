@@ -166,7 +166,7 @@ void menuPrincpipal()
       state = false;
       break;
     default:
-      cout << "ERROR: valor invalido\n";
+      cout << "\nERROR: valor invalido\n";
       system("pause>nul");
       break;
     }
@@ -260,7 +260,7 @@ void menuPlanilla()
       state = false;
       break;
     default:
-      cout << "ERROR: valor invalido\n";
+      cout << "\nERROR: valor invalido\n";
       system("pause>nul");
     }
   } while (state);
@@ -359,7 +359,7 @@ void menuDeducciones()
       state = false;
       break;
     default:
-      cout << "ERROR: valor invalido\n";
+      cout << "\nERROR: valor invalido\n";
       system("pause>nul");
     }
   } while (state);
@@ -494,7 +494,7 @@ void menuSalarios()
       state = false;
       break;
     default:
-      cout << "ERROR: valor invalido\n";
+      cout << "\nERROR: valor invalido\n";
       system("pause>nul");
     }
   } while (state);
