@@ -532,7 +532,7 @@ bool findEmp(int id)
   bool *ptr = &state;
   arr[0] = 0, arr[1] = 0;
   if (id < 0 || id > 40)
-    return state;
+    return *ptr;
 
   for (int i = 0; i < fila; i++)
     for (int j = 0; j < columna; j++)
